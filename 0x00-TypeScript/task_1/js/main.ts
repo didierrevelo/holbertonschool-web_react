@@ -50,3 +50,42 @@ const director1: Directors = {
 };
 
 console.log(director1);
+
+function printTeacher(firstName: string, lastName: string): string {
+  return `${firstName[0]}. ${lastName}`;
+}
+
+interface printTeacherFunction {
+  (firstName: string, lastName: string): string;
+}
+
+let nameTeacher: printTeacherFunction = printTeacher;
+
+console.log(nameTeacher("Didier", "Revelo"));
+
+interface StudentConstructor {
+  new (firstName: string, lastName: string): StudentClassInterface;
+}
+
+interface StudentClassInterface {
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+export class StudentClass implements StudentClassInterface {
+  firstName: string;
+  lastName: string;
+
+  constructor(firstName: string, lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  workOnHomework(): string {
+    return 'Currently working';
+  }
+
+  displayName(): string {
+    return this.firstName;
+  }
+}
