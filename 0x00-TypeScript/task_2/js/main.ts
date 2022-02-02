@@ -50,3 +50,33 @@ export function createEmployee(salary: number | string): Teacher | Director {
 // console.log(createEmployee(1000));
 // console.log(createEmployee('$500'));
 
+export function isDirector(employee: TeacherInterface | DirectorInterface): employee is Director {
+  return (employee as Director).workDirectorTasks !== undefined;
+}
+
+export function executeWork(employee: TeacherInterface | DirectorInterface): string {
+  let message;
+  if (isDirector(employee)) {
+    message = employee.workDirectorTasks();
+  } else {
+    message = employee.workTeacherTasks();
+  }
+  console.log(message);
+  return message;
+}
+
+// executeWork(createEmployee(200));
+// executeWork(createEmployee(1000));
+
+type Subjects = 'Math' | 'History';
+
+export function teachClass(todayClass: Subjects): string {
+  if (todayClass === "Math") {
+    return "Teaching Math";
+  } else if (todayClass === "History") {
+    return "Teaching History";
+  }
+}
+
+// console.log(teachClass('Math'));
+// console.log(teachClass('History'));
