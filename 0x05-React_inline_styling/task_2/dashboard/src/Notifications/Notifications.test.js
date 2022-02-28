@@ -64,14 +64,29 @@ describe("<Notifications />", () => {
       const listItems = wrapper.find("NotificationItem");
       expect(listItems).toBeDefined();
       expect(listItems).toHaveLength(3);
-      expect(listItems.at(0).html()).toEqual(
-        '<li data-notification-type="default">New course available</li>'
-      );
-      expect(listItems.at(1).html()).toEqual(
-        '<li data-notification-type="urgent">New resume available</li>'
-      );
-      expect(listItems.at(2).html()).toEqual(
-        `<li data-notification-type="urgent">${latestNotification}</li>`
+      // expect(listItems.at(0).contains()).toEqual(
+      //   '<li data-notification-type="default">New course available</li>'
+      // );
+      expect(listItems.at(0).html()).toContain("<li");
+      expect(listItems.at(0).props().type).toEqual("default");
+      expect(listItems.at(0).text()).toEqual("New course available");
+
+      // expect(listItems.at(1).html()).toEqual(
+      //   '<li data-notification-type="urgent">New resume available</li>'
+      // );
+
+      expect(listItems.at(1).html()).toContain("<li");
+      expect(listItems.at(1).props().type).toEqual("urgent");
+      expect(listItems.at(1).text()).toEqual("New resume available");
+
+      // expect(listItems.at(2).html()).toEqual(
+      //   `<li data-notification-type="urgent">${latestNotification}</li>`
+      // );
+
+      expect(listItems.at(2).html()).toContain("<li");
+      expect(listItems.at(2).props().type).toEqual("urgent");
+      expect(listItems.at(2).text()).toEqual(
+        "Urgent requirement - complete by EOD"
       );
     });
   });
@@ -89,9 +104,12 @@ describe("<Notifications />", () => {
       wrapper.update();
       const listItems = wrapper.find("NotificationItem");
       expect(listItems).toHaveLength(1);
-      expect(listItems.html()).toEqual(
-        '<li data-notification-type="default">No new notification for now</li>'
-      );
+      // expect(listItems.html()).toEqual(
+      //   '<li data-notification-type="default">No new notification for now</li>'
+      // );
+
+      expect(listItems.props().type).toEqual("default");
+      expect(listItems.text()).toEqual("No new notification for now");
     });
 
     it("Notifications renders Notification Item correct without listNotifications", () => {
@@ -99,9 +117,12 @@ describe("<Notifications />", () => {
       wrapper.update();
       const listItems = wrapper.find("NotificationItem");
       expect(listItems).toHaveLength(1);
-      expect(listItems.html()).toEqual(
-        '<li data-notification-type="default">No new notification for now</li>'
-      );
+      // expect(listItems.html()).toEqual(
+      //   '<li data-notification-type="default">No new notification for now</li>'
+      // );
+
+      expect(listItems.props().type).toEqual("default");
+      expect(listItems.text()).toEqual("No new notification for now");
     });
 
     it("when calling the function markAsRead on an instance of the component, the spy is being called with the right message", () => {
