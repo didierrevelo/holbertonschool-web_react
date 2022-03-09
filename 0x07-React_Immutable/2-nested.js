@@ -1,5 +1,7 @@
-const { fromJS } = require('immutable');
+import { fromJS } from 'immutable';
 
-module.exports = function accessImmutableObject(object, array) {
+function accessImmutableObject(object, array) {
   return array.reduce((acc, key) => acc.get(key), fromJS(object));
-};
+}
+
+export default accessImmutableObject;
