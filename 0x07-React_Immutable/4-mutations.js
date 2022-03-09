@@ -10,6 +10,5 @@ export const map = Map({
 });
 
 export const map2 = map.withMutations((mapItem) => {
-  mapItem.set('2', 'Benjamin');
-  mapItem.set('4', 'Oliver');
+  mapItem.set('2', 'Benjamin').set('4', 'Oliver');
 });
