@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import BodySection from "../BodySection/BodySection";
@@ -89,13 +90,9 @@ class App extends Component {
   }
 
   render() {
-    const {
-      user,
-      user: { isLoggedIn },
-      logOut,
-      displayDrawer,
-      listNotifications,
-    } = this.state;
+    const { user, logOut, displayDrawer, listNotifications } = this.state;
+
+    const { isLoggedIn } = this.props;
 
     const value = { user, logOut };
 
@@ -191,4 +188,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.get("isUserLoggedIn"),
+  };
+};
+
+// export default App;
+
+export default connect(mapStateToProps)(App);
