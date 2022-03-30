@@ -5,7 +5,6 @@ import { getLatestNotification } from "../utils/utils";
 import { StyleSheetTestUtils } from "aphrodite";
 import notificationsNormalizer from "../schema/notifications";
 import { Map, fromJS } from "immutable";
-import { getUnreadNotifications } from "../selectors/notificationSelector";
 
 const NOTIFICATIONS = [
   {
@@ -115,36 +114,15 @@ describe("<Notifications />", () => {
     beforeEach(() => {
       latestNotification = getLatestNotification();
       listNotifications = {
-        notifications: fromJS({
-          messages: {
-            1: {
-              guid: 1,
-              type: "default",
-              value: "New course available",
-              isRead: false,
-            },
-            2: {
-              guid: 2,
-              type: "urgent",
-              value: "New resume available",
-              isRead: false,
-            },
-            3: {
-              guid: 3,
-              type: "urgent",
-              html: { __html: latestNotification },
-              isRead: false,
-            },
-          },
-        }),
+        1: { guid: 1, type: "default", value: "New course available" },
+        2: { guid: 2, type: "urgent", value: "New resume available" },
+        3: { guid: 3, type: "urgent", html: { __html: latestNotification } },
       };
     });
 
     it("Notifications renders Notification Items and items have correct html", () => {
-      const messages = getUnreadNotifications(listNotifications);
-
       const wrapper = mount(
-        <Notifications displayDrawer listNotifications={messages} />
+        <Notifications displayDrawer listNotifications={listNotifications} />
       );
       expect(wrapper.exists());
       wrapper.update();
