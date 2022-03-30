@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import React from "react";
-import CourseList from "./CourseList";
+import { CourseList } from "./CourseList";
 import { StyleSheetTestUtils } from "aphrodite";
 
 describe("<CourseList />", () => {
@@ -61,7 +61,7 @@ describe("<CourseList />", () => {
     });
 
     it("it renders the 3 rows without listCourses  without listCourses", () => {
-      const wrapper = shallow(<CourseList />);
+      const wrapper = shallow(<CourseList fetchCourses={() => {}} />);
       expect(wrapper.exists());
       wrapper.update();
       const item = wrapper.find("CourseListRow");
@@ -82,7 +82,7 @@ describe("<CourseList />", () => {
     });
 
     it("it renders the 3 rows with listCourses empty", () => {
-      const wrapper = shallow(<CourseList listCourses={listCourses} />);
+      const wrapper = shallow(<CourseList fetchCourses={() => {}} />);
       expect(wrapper.exists());
       wrapper.update();
       const item = wrapper.find("CourseListRow");
@@ -100,6 +100,42 @@ describe("<CourseList />", () => {
       );
       expect(item.at(2).prop("textSecondCell")).toEqual(null);
       expect(item.at(2).prop("isHeader")).toEqual(false);
+    });
+
+    it("verify that the function fetchCourses is called when the component is mounted", () => {
+      const fetchCourses = jest.fn();
+
+      const wrapper = shallow(<CourseList fetchCourses={fetchCourses} />);
+
+      expect(fetchCourses).toHaveBeenCalled();
+
+      jest.restoreAllMocks();
+    });
+
+    it("verify that the two actions are correctly dispatched when the onChangeRow function is called", () => {
+      const fetchCourses = jest.fn();
+      const selectCourse = jest.fn();
+      const unSelectCourse = jest.fn();
+
+      const wrapper = shallow(
+        <CourseList
+          fetchCourses={fetchCourses}
+          selectCourse={selectCourse}
+          unSelectCourse={unSelectCourse}
+        />
+      );
+
+      const instance = wrapper.instance();
+
+      instance.onChangeRow("1", true);
+
+      expect(selectCourse).toHaveBeenCalled();
+
+      instance.onChangeRow("1", false);
+
+      expect(unSelectCourse).toHaveBeenCalled();
+
+      jest.restoreAllMocks();
     });
   });
 });
